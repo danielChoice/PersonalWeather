@@ -6,13 +6,13 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 
 import com.example.personalweather.Api.ApiFactory;
 import com.example.personalweather.Api.ApiService;
-import com.example.personalweather.pojo.Fact;
 import com.example.personalweather.pojo.ResponseNow;
+import com.google.gson.JsonObject;
 
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -27,9 +27,11 @@ public class ViewModel extends AndroidViewModel {
     private static String acpCont = "application/xml";
     private WeatherNowDB database;
     private Disposable disposable;
+    private LiveData<ResponseNow> responseNowLiveData;
     public ViewModel(@NonNull Application application) {
         super(application);
         database = WeatherNowDB.getInstance(application);
+        responseNowLiveData = database.getWeatherNowDao().getResponseNow();
         loadData();
 
     }
@@ -51,25 +53,16 @@ public class ViewModel extends AndroidViewModel {
         }
     }
 
-    public ResponseNow getResponse(){
-        ResponseNow responseNow = null;
-
-        try {
-            responseNow = new getResponseTask().execute().get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return responseNow;
+    public LiveData<ResponseNow> getResponse(){
+        return responseNowLiveData;
 
     }
 
-    public class getResponseTask extends AsyncTask<Void, Void, ResponseNow>{
+    public class getResponseTask extends AsyncTask<Void, Void, LiveData<ResponseNow>>{
 
         @Override
-        protected ResponseNow doInBackground(Void... voids) {
-            ResponseNow responseNow = database.getWeatherNowDao().getResponseNow();
+        protected LiveData<ResponseNow> doInBackground(Void... voids) {
+            LiveData<ResponseNow> responseNow = database.getWeatherNowDao().getResponseNow();
             return responseNow;
         }
     }
@@ -85,8 +78,8 @@ public class ViewModel extends AndroidViewModel {
                     @Override
                     public void accept(ResponseNow responseNow) throws Exception {
                         if(responseNow != null){
-                            // Log.i("MyKey",responseNow.getNow() + "");
                             insertResponse(responseNow);
+
 
                         }
 
@@ -111,6 +104,29 @@ public class ViewModel extends AndroidViewModel {
             return null;
         }
     }
+
+//    public JsonObject getResponseFact(){
+//        JsonObject jsonObject= null;
+//
+//        try {
+//            jsonObject = new getResponseFactTask().execute().get();
+//        } catch (ExecutionException e) {
+//            e.printStackTrace();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//        return jsonObject;
+//
+//    }
+//
+//    public class getResponseFactTask extends AsyncTask<Void, Void, JsonObject>{
+//
+//        @Override
+//        protected JsonObject doInBackground(Void... voids) {
+//            JsonObject jsonObjectFact = database.getWeatherNowDao().getResponseNow().getFact();
+//            return jsonObjectFact;
+//        }
+//    }
 
 
 

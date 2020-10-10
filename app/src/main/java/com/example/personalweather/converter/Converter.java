@@ -1,18 +1,10 @@
 package com.example.personalweather.converter;
 
 import androidx.room.TypeConverter;
-import androidx.room.TypeConverters;
 
-import com.example.personalweather.pojo.Fact;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-
-import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class Converter {
