@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">PersonalWeather</string>
+    <string name="text_view_now">Сейчас</string>
+    <string name="image_weather">картинка погода</string>
+    <string name="chance_of_precipitation">Вероятность осадков: </string>
+    <string name="wind_value">10ms</string>
+    <string name="speed_of_wind">Скорость ветра:</string>
+    <string name="temperature">+16</string>
+    <string name="name_of_city">Москва</string>
+</resources>
