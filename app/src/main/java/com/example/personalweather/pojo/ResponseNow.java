@@ -9,6 +9,7 @@ import androidx.room.TypeConverter;
 import androidx.room.TypeConverters;
 
 import com.example.personalweather.converter.Converter;
+import com.example.personalweather.converter.ConverterJsonArray;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.annotations.Expose;
@@ -22,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@TypeConverters(Converter.class)
+@TypeConverters(value = Converter.class)
 @Entity(tableName = "responseNow")
 public class ResponseNow {
 
@@ -30,10 +31,15 @@ public class ResponseNow {
     @PrimaryKey(autoGenerate = true)
     public int id;
 
-    @Ignore
+
     @SerializedName("fact")
     @Expose
-    private JsonObject fact = null;
+    private JsonObject fact;
+
+    @SerializedName("forecasts")
+    @Expose
+    private JsonArray forecasts;
+
 
 
     @SerializedName("now")
@@ -56,6 +62,14 @@ public class ResponseNow {
 
     public void setNow(long now) {
         this.now = now;
+    }
+
+    public JsonArray getForecasts() {
+        return forecasts;
+    }
+
+    public void setForecasts(JsonArray forecasts) {
+        this.forecasts = forecasts;
     }
 }
 

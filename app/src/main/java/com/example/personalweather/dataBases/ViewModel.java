@@ -10,9 +10,11 @@ import androidx.lifecycle.LiveData;
 
 import com.example.personalweather.Api.ApiFactory;
 import com.example.personalweather.Api.ApiService;
+import com.example.personalweather.City;
 import com.example.personalweather.pojo.ResponseNow;
 import com.google.gson.JsonObject;
 
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -21,13 +23,18 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 public class ViewModel extends AndroidViewModel {
-    private static String testLat = "55.75396";
-    private static String testLon = "37.620393";
+
     private static String API_KEY = "65a2d3f1-1410-4837-be10-aa010cb167bd";
     private static String acpCont = "application/xml";
     private WeatherNowDB database;
     private Disposable disposable;
     private LiveData<ResponseNow> responseNowLiveData;
+    private ArrayList<City> cityArrayList;
+    private  String lat = "82.93573270000002";
+    private  String lon = "55.00835259999999";
+    private String cityName = "Москва";
+
+
     public ViewModel(@NonNull Application application) {
         super(application);
         database = WeatherNowDB.getInstance(application);
@@ -67,11 +74,11 @@ public class ViewModel extends AndroidViewModel {
         }
     }
 
-    private void loadData(){
+    public void loadData(){
         ApiFactory apiFactory = ApiFactory.getInstance();
         ApiService apiService = apiFactory.getApiService();
 
-        disposable = apiService.getJsonWeather(testLat, testLon, API_KEY, acpCont, acpCont)
+        disposable = apiService.getJsonWeather(lat, lon, API_KEY, acpCont, acpCont)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<ResponseNow>() {
@@ -79,6 +86,10 @@ public class ViewModel extends AndroidViewModel {
                     public void accept(ResponseNow responseNow) throws Exception {
                         if(responseNow != null){
                             insertResponse(responseNow);
+//                            Log.i("MyKey", responseNow.getFact().get("temp") + " TEMP ");
+
+                            Log.i("MyKey", responseNow.getForecasts() + "FORCE");
+
 
 
                         }
@@ -95,7 +106,9 @@ public class ViewModel extends AndroidViewModel {
                 });
     }
 
-    public void deleteAllFromResponse(){}
+    public void deleteAllFromResponse(){
+        new deleteAllTask().execute();
+    }
 
     public class deleteAllTask extends AsyncTask<Void, Void, Void>{
         @Override
@@ -103,6 +116,38 @@ public class ViewModel extends AndroidViewModel {
             database.getWeatherNowDao().deleteResponseNow();
             return null;
         }
+    }
+
+    public static String getApiKey() {
+        return API_KEY;
+    }
+
+    public static void setApiKey(String apiKey) {
+        API_KEY = apiKey;
+    }
+
+    public String getLat() {
+        return lat;
+    }
+
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+    public String getLon() {
+        return lon;
+    }
+
+    public void setLon(String lon) {
+        this.lon = lon;
+    }
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
     }
 
 //    public JsonObject getResponseFact(){
@@ -119,11 +164,17 @@ public class ViewModel extends AndroidViewModel {
 //
 //    }
 //
-//    public class getResponseFactTask extends AsyncTask<Void, Void, JsonObject>{
+//    private class getResponseFactTask extends AsyncTask<Void, Void, JsonObject>{
 //
 //        @Override
 //        protected JsonObject doInBackground(Void... voids) {
-//            JsonObject jsonObjectFact = database.getWeatherNowDao().getResponseNow().getFact();
+//            JsonObject jsonObjectFact = null;
+//            LiveData<ResponseNow> responseNow = database.getWeatherNowDao().getResponseNow();
+//            ResponseNow responseNow1 = responseNow.getValue();
+//            if (responseNow1 != null){
+//                jsonObjectFact = responseNow1.getFact();
+//            }
+//
 //            return jsonObjectFact;
 //        }
 //    }

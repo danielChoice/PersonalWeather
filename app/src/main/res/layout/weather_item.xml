@@ -55,52 +55,61 @@
                 android:id="@+id/precipitation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:layout_marginEnd="10dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginLeft="30dp"
                 android:text="@string/chance_of_precipitation"
-                app:layout_constraintBottom_toBottomOf="@id/textViewPrecipitationValue"
-                app:layout_constraintEnd_toStartOf="@+id/textViewPrecipitationValue"
-                app:layout_constraintTop_toTopOf="@+id/textViewPrecipitationValue" />
+                app:layout_constraintBottom_toBottomOf="@+id/textViewTemperature"
+                app:layout_constraintStart_toEndOf="@+id/textViewTemperature"
+                app:layout_constraintTop_toTopOf="@+id/textViewTimeOfUpdate" />
 
             <TextView
                 android:id="@+id/textViewWind"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:layout_marginEnd="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginLeft="30dp"
                 android:text="@string/speed_of_wind"
-                app:layout_constraintBottom_toBottomOf="@+id/textViewWindValue"
 
-                app:layout_constraintStart_toStartOf="@+id/precipitation"
-                app:layout_constraintTop_toBottomOf="@+id/textViewPrecipitationValue" />
+
+                app:layout_constraintStart_toEndOf="@+id/textViewTemperature"
+                app:layout_constraintTop_toBottomOf="@+id/precipitation" />
 
             <TextView
                 android:id="@+id/textViewPrecipitationValue"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginEnd="2dp"
+                android:layout_marginRight="2dp"
                 android:text="@string/wind_value"
-                app:layout_constraintBottom_toTopOf="@id/textViewWindValue"
+                app:layout_constraintBottom_toBottomOf="@+id/precipitation"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView" />
+                app:layout_constraintStart_toEndOf="@+id/precipitation"
+                app:layout_constraintTop_toTopOf="@+id/precipitation" />
 
             <TextView
                 android:id="@+id/textViewWindValue"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginEnd="2dp"
+                android:layout_marginRight="2dp"
                 android:text="@string/wind_value"
-                app:layout_constraintBottom_toTopOf="@+id/imageView"
-                app:layout_constraintEnd_toEndOf="@+id/textViewPrecipitationValue"
-                app:layout_constraintTop_toBottomOf="@+id/textViewPrecipitationValue" />
+                app:layout_constraintBottom_toBottomOf="@+id/textViewWind"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textViewWind"
+                app:layout_constraintTop_toTopOf="@+id/textViewWind" />
 
             <ImageView
                 android:id="@+id/imageView4"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 app:layout_constraintBottom_toBottomOf="@+id/textViewCityName"
-                app:layout_constraintEnd_toEndOf="@+id/textViewWindValue"
-                app:layout_constraintTop_toBottomOf="@+id/textViewWindValue"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textViewCityName"
                 app:srcCompat="@android:drawable/ic_menu_set_as" />
 
             <TextView
@@ -110,7 +119,6 @@
                 android:text="@string/temperature"
                 android:textSize="40sp"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView"
-                app:layout_constraintEnd_toStartOf="@+id/precipitation"
                 app:layout_constraintStart_toEndOf="@+id/imageView"
                 app:layout_constraintTop_toBottomOf="@+id/textViewTimeOfUpdate" />
 
