@@ -1,6 +1,7 @@
 package com.example.personalweather.adapters;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +19,12 @@ import com.google.gson.JsonObject;
 
 import org.w3c.dom.Text;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherViewHolder> {
 
@@ -49,6 +55,7 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherV
     @NonNull
     @Override
     public WeatherViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.weather_item, parent, false);
         return new WeatherViewHolder(view);
     }
@@ -60,6 +67,7 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherV
 
         if (response != null) {
             long time = response.getNow();
+
 
             JsonObject weatherFact = response.getFact();
             int tempInt = Integer.parseInt(weatherFact.get("temp").toString());
@@ -143,11 +151,25 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherV
             }
 
 
-            java.util.Date timeConverter = new java.util.Date(time * 1000);
-            String st = String.format("%02d:%02d", timeConverter.getHours() + 3, timeConverter.getMinutes());
-            holder.textViewTimeOfUpdate.setText(st);
+//            java.util.Date timeConverter = new java.util.Date(time * 1000);
+//            String st = String.format("%02d:%02d", timeConverter.getHours() + 3, timeConverter.getMinutes());
+//            holder.textViewTimeOfUpdate.setText(st);
+
+
+            Date date = new Date(time*1000);
+            
+
+
+
+
+
+
+
+
+            String st = String.format("%s:%s", date.getHours(), date.getMinutes());
             holder.textViewTemp.setText(factTemp);
             holder.textViewWindSpeed.setText(wind);
+            holder.textViewTimeOfUpdate.setText(st);
             holder.textViewPrecipitation.setText(precipitation);
             holder.textViewCityName.setText(city);
 

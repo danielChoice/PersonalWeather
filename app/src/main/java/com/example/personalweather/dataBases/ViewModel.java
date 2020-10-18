@@ -11,16 +11,22 @@ import androidx.lifecycle.LiveData;
 import com.example.personalweather.Api.ApiFactory;
 import com.example.personalweather.Api.ApiService;
 import com.example.personalweather.City;
+import com.example.personalweather.adapters.WeatherNextDayAdapter;
 import com.example.personalweather.pojo.ResponseNow;
+import com.example.personalweather.pojo.WeatherOnNextDays;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import timber.log.Timber;
 
 public class ViewModel extends AndroidViewModel {
 
@@ -28,6 +34,10 @@ public class ViewModel extends AndroidViewModel {
     private static String acpCont = "application/xml";
     private WeatherNowDB database;
     private Disposable disposable;
+
+
+
+
     private LiveData<ResponseNow> responseNowLiveData;
     private ArrayList<City> cityArrayList;
     private  String lat = "82.93573270000002";
@@ -86,9 +96,14 @@ public class ViewModel extends AndroidViewModel {
                     public void accept(ResponseNow responseNow) throws Exception {
                         if(responseNow != null){
                             insertResponse(responseNow);
-//                            Log.i("MyKey", responseNow.getFact().get("temp") + " TEMP ");
 
-                            Log.i("MyKey", responseNow.getForecasts() + "FORCE");
+
+
+
+
+
+
+
 
 
 
