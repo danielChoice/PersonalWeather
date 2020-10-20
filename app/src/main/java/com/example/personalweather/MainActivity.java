@@ -81,8 +81,9 @@ public class MainActivity extends AppCompatActivity {
                     Log.i("MyKey", responseNow2.getFact() + "");
                     JsonArray jsonArray = responseNow.getForecasts();
                     weatherOnNextDays = new WeatherOnNextDays(jsonArray);
-                    Log.i("DATE", weatherOnNextDays.getDay7());
+
                     nextDayAdapter.setWeatherOnNextDays(weatherOnNextDays);
+//                    Log.i("MAX", responseNow.getForecasts() + "");
 
 
 

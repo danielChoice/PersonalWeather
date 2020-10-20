@@ -157,7 +157,6 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherV
 
 
             Date date = new Date(time*1000);
-            
 
 
 
@@ -166,7 +165,8 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherV
 
 
 
-            String st = String.format("%s:%s", date.getHours(), date.getMinutes());
+
+            String st = String.format("%02d:%02d", date.getHours(), date.getMinutes());
             holder.textViewTemp.setText(factTemp);
             holder.textViewWindSpeed.setText(wind);
             holder.textViewTimeOfUpdate.setText(st);

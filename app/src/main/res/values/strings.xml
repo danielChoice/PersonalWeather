@@ -7,4 +7,5 @@
     <string name="speed_of_wind">Скорость ветра:</string>
     <string name="temperature">+16</string>
     <string name="name_of_city">Москва</string>
+    <string name="tomorrow">Завтра</string>
 </resources>

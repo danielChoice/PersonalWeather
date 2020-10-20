@@ -40,8 +40,8 @@ public class ViewModel extends AndroidViewModel {
 
     private LiveData<ResponseNow> responseNowLiveData;
     private ArrayList<City> cityArrayList;
-    private  String lat = "82.93573270000002";
-    private  String lon = "55.00835259999999";
+    private  String lat = "55.753960";
+    private  String lon = "37.620393";
     private String cityName = "Москва";
 
 
