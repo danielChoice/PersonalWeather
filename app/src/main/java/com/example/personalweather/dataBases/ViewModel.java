@@ -12,6 +12,8 @@ import com.example.personalweather.Api.ApiFactory;
 import com.example.personalweather.Api.ApiService;
 import com.example.personalweather.City;
 import com.example.personalweather.adapters.WeatherNextDayAdapter;
+import com.example.personalweather.dataBases.citiesDb.CitiesDB;
+import com.example.personalweather.pojo.Cities;
 import com.example.personalweather.pojo.ResponseNow;
 import com.example.personalweather.pojo.WeatherOnNextDays;
 import com.google.gson.JsonArray;
@@ -20,6 +22,7 @@ import com.google.gson.JsonObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -33,15 +36,16 @@ public class ViewModel extends AndroidViewModel {
     private static String API_KEY = "65a2d3f1-1410-4837-be10-aa010cb167bd";
     private static String acpCont = "application/xml";
     private WeatherNowDB database;
+    private CitiesDB citiesDB;
     private Disposable disposable;
 
 
 
 
     private LiveData<ResponseNow> responseNowLiveData;
-    private ArrayList<City> cityArrayList;
-    private  String lat = "55.753960";
-    private  String lon = "37.620393";
+    private LiveData<List<Cities>> citiesLiveData;
+    private  String lat = "55.755814";
+    private  String lon = "37.617635";
     private String cityName = "Москва";
 
 
@@ -49,7 +53,12 @@ public class ViewModel extends AndroidViewModel {
         super(application);
         database = WeatherNowDB.getInstance(application);
         responseNowLiveData = database.getWeatherNowDao().getResponseNow();
+        citiesDB = CitiesDB.getInstance(application);
+        citiesLiveData = citiesDB.citiesDao().getCities();
+        Log.i("SITI", citiesLiveData.getValue() + "");
+
         loadData();
+
 
     }
 
@@ -75,12 +84,15 @@ public class ViewModel extends AndroidViewModel {
 
     }
 
+
+
+
     public class getResponseTask extends AsyncTask<Void, Void, LiveData<ResponseNow>>{
 
         @Override
         protected LiveData<ResponseNow> doInBackground(Void... voids) {
-            LiveData<ResponseNow> responseNow = database.getWeatherNowDao().getResponseNow();
-            return responseNow;
+            responseNowLiveData = database.getWeatherNowDao().getResponseNow();
+            return null;
         }
     }
 
@@ -96,6 +108,10 @@ public class ViewModel extends AndroidViewModel {
                     public void accept(ResponseNow responseNow) throws Exception {
                         if(responseNow != null){
                             insertResponse(responseNow);
+
+
+
+
 
 
 
@@ -133,6 +149,7 @@ public class ViewModel extends AndroidViewModel {
         }
     }
 
+
     public static String getApiKey() {
         return API_KEY;
     }
@@ -165,34 +182,76 @@ public class ViewModel extends AndroidViewModel {
         this.cityName = cityName;
     }
 
-//    public JsonObject getResponseFact(){
-//        JsonObject jsonObject= null;
-//
-//        try {
-//            jsonObject = new getResponseFactTask().execute().get();
-//        } catch (ExecutionException e) {
-//            e.printStackTrace();
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//        return jsonObject;
-//
-//    }
-//
-//    private class getResponseFactTask extends AsyncTask<Void, Void, JsonObject>{
-//
-//        @Override
-//        protected JsonObject doInBackground(Void... voids) {
-//            JsonObject jsonObjectFact = null;
-//            LiveData<ResponseNow> responseNow = database.getWeatherNowDao().getResponseNow();
-//            ResponseNow responseNow1 = responseNow.getValue();
-//            if (responseNow1 != null){
-//                jsonObjectFact = responseNow1.getFact();
-//            }
-//
-//            return jsonObjectFact;
-//        }
-//    }
+    public void insertCities(Cities cities){
+        InsertCitiesTask in = new InsertCitiesTask();
+        try {
+            in.execute(cities).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public class InsertCitiesTask extends AsyncTask<Cities, Void, Void>{
+
+
+        @Override
+        protected Void doInBackground(Cities... cities) {
+            if(cities != null){
+                citiesDB.citiesDao().insertCities(cities[0]);
+            }
+            return null;
+        }
+    }
+
+    public LiveData<List<Cities>> getCitiesLiveData(){
+        new getCitiesTask();
+        return citiesLiveData;
+
+    }
+
+
+
+
+    public class getCitiesTask extends AsyncTask<Void, Void, Void>{
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+           citiesLiveData = citiesDB.citiesDao().getCities();
+           return null;
+        }
+    }
+
+    public Cities search(String search){
+        if(search.length() > 2) {
+            try {
+                Cities cities = new SearchTask().execute(search).get();
+                return cities;
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    public class SearchTask extends AsyncTask<String, Void, Cities>{
+
+        @Override
+        protected Cities doInBackground(String... strings) {
+            String string = strings[0];
+            List<Cities> cities = citiesDB.citiesDao().getAllWithNameLike(string);
+            if(cities != null) {
+                Cities cities1 = cities.get(0);
+                return cities1;
+            }
+            return null;
+        }
+    }
+
 
 
 

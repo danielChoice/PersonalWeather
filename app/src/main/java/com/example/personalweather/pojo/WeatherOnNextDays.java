@@ -28,25 +28,34 @@ public class WeatherOnNextDays {
         this.forecasts = forecasts;
     }
 
-    public String getDay1(){
-        String result = "";
-        JsonObject jsonObject = (JsonObject) forecasts.get(0);
-        String date = jsonObject.get("date").toString();
-
-        date = date.replace("\"", "");
-
-        SimpleDateFormat oldDate = new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat newDate = new SimpleDateFormat("dd MMMM");
-        try {
-            Date date1 = oldDate.parse(date);
-            result = newDate.format(date1);
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        return result;
+public String getTempDay0(int hour){
+    if(forecasts != null) {
+        JsonArray jsonArray1 = getForecasts();
+        JsonObject firstDay = (JsonObject) jsonArray1.get(0);
+        JsonArray arrayHours = (JsonArray) firstDay.get("hours");
+        JsonObject firstDayHours = (JsonObject) arrayHours.get(hour);
+        String temp = firstDayHours.get("temp").toString();
+        return temp;
     }
+
+
+  return null;
+}
+
+public long getHourDay0(int hour) {
+    long hourFromForecasts = 0;
+    if (forecasts != null) {
+        JsonArray jsonArray1 = getForecasts();
+        JsonObject firstDay = (JsonObject) jsonArray1.get(0);
+        JsonArray arrayHours = (JsonArray) firstDay.get("hours");
+        JsonObject firstDayHours = (JsonObject) arrayHours.get(hour);
+        hourFromForecasts = Integer.parseInt(String.valueOf(firstDayHours.get("hour_ts")));
+        return hourFromForecasts;
+    }
+
+    return hourFromForecasts;
+
+}
 
       public Date getDay2(){
        Date result = new Date();
@@ -185,7 +194,21 @@ public class WeatherOnNextDays {
           return result;
     }
 
+    public String getWeatherStatusDay0(int position){
+        String status = "";
+        JsonArray jsonArray = getForecasts();
+        JsonObject jsonObject = (JsonObject) jsonArray.get(0);
+        JsonArray hours = (JsonArray) jsonObject.get("hours");
+        JsonObject hour = (JsonObject) hours.get(position);
+        status = hour.get("condition").toString();
+        status = status.replace("\"", "");
+
+        return status;
+
+    }
+
 
 }
+
 
 

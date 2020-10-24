@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -85,65 +86,84 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherV
             switch (precipitation) {
                 case "overcast":
                     precipitation = "Пасмурно";
+                    holder.imageView.setImageResource(R.drawable.cloudness);
                     break;
                 case "clear":
                     precipitation = "Ясно";
+                    holder.imageView.setImageResource(R.drawable.cloud_sun);
                     break;
                 case "partly-cloudy":
                     precipitation = "Малооблачно";
+                    holder.imageView.setImageResource(R.drawable.cloud_sun);
                     break;
                 case "cloudy":
                     precipitation = "Облачно с прояснениями";
+                    holder.imageView.setImageResource(R.drawable.cloud_sun);
                     break;
                 case "drizzle":
                     precipitation = "Морось";
+                    holder.imageView.setImageResource(R.drawable.rain);
                     break;
                 case "light-rain":
                     precipitation = "Небольшой дождь";
+                    holder.imageView.setImageResource(R.drawable.rain);
                     break;
                 case "rain":
                     precipitation = "Дождь";
+                    holder.imageView.setImageResource(R.drawable.rain);
                     break;
                 case "moderate-rain":
                     precipitation = "Умеренный дождь";
+                    holder.imageView.setImageResource(R.drawable.rain);
                     break;
                 case "heavy-rain":
                     precipitation = "Сильный дождь";
+                    holder.imageView.setImageResource(R.drawable.rain);
                     break;
                 case "continuous-heavy-rain":
                     precipitation = "Длительный сильный дождь";
+                    holder.imageView.setImageResource(R.drawable.rain);
                     break;
                 case "showers":
                     precipitation = "Ливень";
+                    holder.imageView.setImageResource(R.drawable.rain);
                     break;
                 case "wet-snow":
                     precipitation = "Дождь со снегом";
+                    holder.imageView.setImageResource(R.drawable.snow);
                     break;
                 case "light-snow":
                     precipitation = "Небольшой снег";
+                    holder.imageView.setImageResource(R.drawable.snow);
                     break;
 
                 case "snow":
                     precipitation = "Снег";
+                    holder.imageView.setImageResource(R.drawable.snow);
                     break;
 
                 case "snow-showers":
                     precipitation = "Снегопад";
+                    holder.imageView.setImageResource(R.drawable.snow);
                     break;
 
                 case "hail":
                     precipitation = "Град";
+                    holder.imageView.setImageResource(R.drawable.snow);
                     break;
                 case "thunderstorm":
                     precipitation = "Гроза";
+                    holder.imageView.setImageResource(R.drawable.thunder);
                     break;
 
                 case "thunderstorm-with-rain":
                     precipitation = "Дождь с грозой";
+                    holder.imageView.setImageResource(R.drawable.thunder);
                     break;
 
                 case "thunderstorm-with-hail":
                     precipitation = "Гроза с градом";
+                    holder.imageView.setImageResource(R.drawable.thunder);
                     break;
                 default:
                     precipitation = "Нет данных";
@@ -189,9 +209,11 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherV
         private TextView textViewWindSpeed;
         private TextView textViewPrecipitation;
         private TextView textViewCityName;
+        private ImageView imageView;
 
         public WeatherViewHolder(@NonNull final View itemView) {
             super(itemView);
+            imageView = itemView.findViewById(R.id.imageViewStatus);
             textViewCityName = itemView.findViewById(R.id.textViewCityName);
             textViewTimeOfUpdate = itemView.findViewById(R.id.textViewTimeOfUpdate);
             textViewTemp = itemView.findViewById(R.id.textViewTemperature);
