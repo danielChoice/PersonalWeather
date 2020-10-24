@@ -56,8 +56,24 @@ public class ViewModel extends AndroidViewModel {
         citiesDB = CitiesDB.getInstance(application);
         citiesLiveData = citiesDB.citiesDao().getCities();
         Log.i("SITI", citiesLiveData.getValue() + "");
+        if(getCitiesLiveData().getValue() == null) {
+            Cities cities = new Cities("Москва", "55.755814", "37.617635");
+            Cities citiesNizhn = new Cities("Нижний Новгород", "56.331927", "44.023225");
+            Cities citiesRost = new Cities("Ростов-на-Дону", "47.222078", "39.720349");
+            Cities citiesSpb = new Cities("Санкт-Петербург", "59.939095", "30.315868");
+            Cities citiesEkb = new Cities("Екатеринбург", "56.838011", "60.597465");
+            Cities citiesNewYork = new Cities("Нью-Йорк", "40.714599", "-74.002791");
+            Cities citiesBerlin = new Cities("Берлин", "52.519881", "13.407338");
+            insertCities(cities);
+            insertCities(citiesNizhn);
+            insertCities(citiesRost);
+            insertCities(citiesSpb);
+            insertCities(citiesEkb);
+            insertCities(cities);
+            insertCities(citiesNewYork);
+            insertCities(citiesBerlin);
+        }
 
-        loadData();
 
 
     }
@@ -225,7 +241,7 @@ public class ViewModel extends AndroidViewModel {
     }
 
     public Cities search(String search){
-        if(search.length() > 2) {
+
             try {
                 Cities cities = new SearchTask().execute(search).get();
                 return cities;
@@ -234,7 +250,7 @@ public class ViewModel extends AndroidViewModel {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        }
+
         return null;
     }
 
@@ -244,11 +260,13 @@ public class ViewModel extends AndroidViewModel {
         protected Cities doInBackground(String... strings) {
             String string = strings[0];
             List<Cities> cities = citiesDB.citiesDao().getAllWithNameLike(string);
-            if(cities != null) {
+            if(cities != null & cities.size() > 0) {
                 Cities cities1 = cities.get(0);
                 return cities1;
             }
+
             return null;
+
         }
     }
 

@@ -9,7 +9,7 @@ import androidx.room.RoomDatabase;
 import com.example.personalweather.pojo.Cities;
 import com.example.personalweather.pojo.ResponseNow;
 
-@Database(entities = {Cities.class}, version = 4, exportSchema = false)
+@Database(entities = {Cities.class}, version = 10, exportSchema = false)
 public abstract class CitiesDB extends RoomDatabase {
     private static CitiesDB database = null;
     private static final String dbName = "cities.db";

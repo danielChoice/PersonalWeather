@@ -48,6 +48,9 @@ public class SearchActivity extends AppCompatActivity {
                 if (cities != null) {
                     citietw.setText(cities.getCityName());
                 }
+                else {
+                    citietw.setText("Такого города нет, попробуйте снова");
+                }
 
 
             }

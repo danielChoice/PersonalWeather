@@ -70,20 +70,22 @@ public class MainActivity extends AppCompatActivity {
         blockAdapter = new WeatherBlockAdapter();
         recyclerView.setAdapter(adapter);
         textView = findViewById(R.id.textViewCityName);
-        Intent intent = getIntent();
         viewModel = ViewModelProviders.of(this).get(ViewModel.class);
-//        if (intent.getStringExtra("CITYLAT") != null){
-//            String lat = intent.getStringExtra("CITYLAT");
-//            String lon = intent.getStringExtra("CITYLON");
-//            String cityName = intent.getStringExtra("CITYNAME");
-//
-//            viewModel.setLat(lat);
-//            viewModel.setLon(lon);
-//            viewModel.loadData();
-//            viewModel.setCityName(cityName);
-//
-//
-//        }
+        Intent intent = getIntent();
+
+        if (intent.getStringExtra("CITYLAT") != null){
+            String lat = intent.getStringExtra("CITYLAT");
+            String lon = intent.getStringExtra("CITYLON");
+            String cityName = intent.getStringExtra("CITYNAME");
+
+            viewModel.setLat(lat);
+            viewModel.setLon(lon);
+            viewModel.loadData();
+            viewModel.setCityName(cityName);
+
+
+        }
+
 
         nextDayAdapter = new WeatherNextDayAdapter();
         recyclerViewWeatherNextDays = findViewById(R.id.recyclerWeatherOnNextDays);
@@ -132,13 +134,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        viewModel.getCitiesLiveData().observe(this, new Observer<List<Cities>>() {
-            @Override
-            public void onChanged(List<Cities> cities) {
-                List<Cities> cities1 = viewModel.getCitiesLiveData().getValue();
-                Log.i("CT1", cities.get(2).getCityName() + "");
-            }
-        });
+
 
 
 
